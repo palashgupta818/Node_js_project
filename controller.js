@@ -1,6 +1,8 @@
 const User = require('./model/P_user'); // User Model
 const Todo = require('./model/P_todo'); // Todo Model
 
+
+
 exports.registerUser = (req,res) => {
   try {
     User.find({email:req.body.email}, (err, users)=> {
@@ -29,17 +31,13 @@ exports.allUser = (req,res)=> {
 
 exports.createTodo = (req,res)=>{
     try {
-      if(req.session.username){  // check the session is not destroy
         var json = {
           'title'       : req.body.title,
           'description' : req.body.description,
           'username'      : req.session.username 
         };
         Todo.create(json); 
-        res.status(200).send({ message:"todo created successfully"})
-      }else{
-        res.status(400).send({ message:'User is not authorised' });
-      } 
+        res.status(200).send({ message:"todo created successfully"}) 
     } catch (error) {
       res.status(400).send({ message:'Issue is coming while creating Todo' });
     }
@@ -47,7 +45,6 @@ exports.createTodo = (req,res)=>{
 
   exports.getAllTodos = (req,res) => {
     try {
-      if(req.session.username){ // check the session is not destroy
         Todo.find({username:req.session.username},(err,todos)=>{
           if(todos.length == 0){
             res.send({ message: 'No records found'});  
@@ -55,9 +52,6 @@ exports.createTodo = (req,res)=>{
             res.send(todos);
           }
         })
-      }else{
-        res.status(400).send({ message:'User is not authorised' });  
-      }
     } catch (error) {
       res.status(400).send({ message:'Issue is coming while fetch Todo' });
     }
@@ -65,14 +59,10 @@ exports.createTodo = (req,res)=>{
 
 exports.updateTodo = (req,res) => { 
     try {
-      if(req.session.username){ // check the session is not destroy
         Todo.findByIdAndUpdate(req.params.id,req.body,(err,docs)=>{
           if(err) console.log(err);
           res.send("Updated User : "+ docs);  
         })
-      }else{
-        res.status(400).send({ message:'User is not authorised' });  
-      }
     } catch (error) {
       res.status(400).send({ message:'Issue is coming while update Todo' });
     }
@@ -80,14 +70,10 @@ exports.updateTodo = (req,res) => {
 
 exports.deleteTodo = (req,res)=>{
     try {
-      if(req.session.username){ // check the session is not destroy
         Todo.findByIdAndDelete(req.params.id,(err,docs)=>{
           if(err) console.log(err);
           res.send('Todo deleted succssfully');
         })
-      }else{
-        res.status(400).send({ message:'User is not authorised' });  
-      }
     } catch (error) {
       res.status(400).send({ message:'Issue is coming while delete Todo' });
     } 
