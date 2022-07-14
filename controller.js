@@ -1,8 +1,6 @@
 const User = require('./model/P_user'); // User Model
 const Todo = require('./model/P_todo'); // Todo Model
 
-
-
 exports.registerUser = (req,res) => {
   try {
     User.find({email:req.body.email}, (err, users)=> {
