@@ -1,13 +1,16 @@
 const express       = require('express');
-const app           = express();
+//const app           = express();
+const router        = express.Router();
 const Controller    = require('../controller'); // controller 
 const middlware     = require('../middleware/auth_middlware');
-app.post('/registerUser',Controller.registerUser);
-app.get('/allUser',Controller.allUser);
-app.post('/logout',Controller.logout);
-app.post('/login',Controller.login);
-app.post('/createTodo',middlware,Controller.createTodo);
-app.get('/getAllTodos',middlware,Controller.getAllTodos);
-app.delete('/deleteTodo/:id',middlware,Controller.deleteTodo);
-app.put('/updateTodo/:id',middlware,Controller.updateTodo);
-app.listen(3000, () => console.log(`App is running`)); 
+
+router.post('/registerUser',Controller.registerUser);
+router.get('/allUser',Controller.allUser);
+router.post('/logout',Controller.logout);
+router.post('/login',Controller.login);
+router.post('/createTodo',middlware,Controller.createTodo);
+router.get('/getAllTodos',middlware,Controller.getAllTodos);
+router.delete('/deleteTodo/:id',middlware,Controller.deleteTodo);
+router.put('/updateTodo/:id',middlware,Controller.updateTodo);
+
+module.exports = router;
