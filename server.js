@@ -10,9 +10,17 @@ app.use(express.json());
 app.use(session({secret: 'ssshhhhh'}));
 app.use(express.urlencoded({ extended: true }));
 app.use('/',require('./routes/routes'));
-  
-//app.listen(process.argv[2], () => console.log(`App is running on port ${process.argv[2]}`));
-app.listen(process.env.PORT, () => console.log(`App is running`));  
+
+// This is only use for run time argument
+const argv = process.argv.slice(2).toString().split("=");
+var PORT = "";
+if(argv[1]){
+    PORT = argv[1];
+}else{
+    PORT = process.env.PORT;
+}
+
+app.listen(PORT, () => console.log(`App is running on ${PORT}`));  
 
 
 
